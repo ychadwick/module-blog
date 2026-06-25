@@ -279,6 +279,8 @@
                         <item name="wysiwyg" xsi:type="boolean">true</item>
                         <item name="wysiwygConfigData" xsi:type="array">
                             <item name="is_pagebuilder_enabled" xsi:type="boolean">true</item>
+                            <item name="toggle_button" xsi:type="boolean">true</item>
+                            <item name="directives_url" xsi:type="string">cms/wysiwyg/directive</item>
                         </item>
                     </item>
                 </argument>

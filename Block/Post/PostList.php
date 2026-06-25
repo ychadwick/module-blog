@@ -107,17 +107,20 @@ class PostList extends AbstractBlock implements IdentityInterface
     {
         if ($this->config->getExcerptsEnabled()) {
             $size = $this->config->getExcerptSize();
-            if ($exerpt = strpos($post->getContent(), '<!--more-->')) {
-                return $this->filterProvider->getPageFilter()->filter(substr($post->getContent(), 0, $exerpt));
+            $content = $this->filterProvider->getPageFilter()->filter($post->getContent());
+
+            if ($exerpt = strpos($content, '<!--more-->')) {
+                return $this->filterProvider->getPageFilter()->filter(substr($content, 0, $exerpt));
             } elseif ($post->getShortContent()) {
                 return $this->filterProvider->getPageFilter()->filter($post->getShortContent());
             } elseif (preg_match('/^.{1,' . $size . '}\b/s', $this->stripTags(
-                preg_replace("/<style\\b[^>]*>(.*?)<\\/style>/s", "", $post->getContent())
+                preg_replace("/<style\\b[^>]*>(.*?)<\\/style>/s", "", $content)
             ), $match)) {
+
                 return $match[0];
             }
 
-            return $this->filterProvider->getPageFilter()->filter($post->getContent());
+            return $this->filterProvider->getPageFilter()->filter($content);
         }
 
         return '';
