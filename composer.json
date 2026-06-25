@@ -1,5 +1,5 @@
 {
-  "name": "mirasvit/module-blog",
+  "name": "ychadwick/module-blog",
   "description": "Mirasvit Blog MX",
   "require": {
     "magento/framework": "100.1.*|100.2.*|101.0.*|102.0.*|103.0.*"
