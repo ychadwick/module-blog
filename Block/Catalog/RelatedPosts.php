@@ -2,6 +2,7 @@
 
 namespace Mirasvit\Blog\Block\Catalog;
 
+use Magento\Cms\Model\Template\FilterProvider;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template;
@@ -34,6 +35,9 @@ class RelatedPosts extends Template
      */
     protected $url;
 
+    protected $filterProvider;
+
+
     /**
      * @param PostCollectionFactory $postCollectionFactory
      * @param Config                $config
@@ -46,12 +50,14 @@ class RelatedPosts extends Template
         Config $config,
         Url $url,
         Registry $registry,
+        FilterProvider $filterProvider,
         Context $context
     ) {
         $this->postCollectionFactory = $postCollectionFactory;
         $this->config                = $config;
         $this->url                   = $url;
         $this->registry              = $registry;
+        $this->filterProvider        = $filterProvider;
 
         parent::__construct($context);
 
@@ -76,6 +82,7 @@ class RelatedPosts extends Template
      */
     public function getCollection()
     {
+
         $collection = $this->postCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addVisibilityFilter()
@@ -111,5 +118,28 @@ class RelatedPosts extends Template
     public function getRssUrl()
     {
         return $this->url->getRssUrl($this->getCategory());
+    }
+
+    public function getContentMoreTag($post)
+    {
+        if ($this->config->getExcerptsEnabled()) {
+            $size = $this->config->getExcerptSize();
+            $content = $this->filterProvider->getPageFilter()->filter($post->getContent());
+
+            if ($exerpt = strpos($content, '<!--more-->')) {
+                return $this->filterProvider->getPageFilter()->filter(substr($content, 0, $exerpt));
+            } elseif ($post->getShortContent()) {
+                return $this->filterProvider->getPageFilter()->filter($post->getShortContent());
+            } elseif (preg_match('/^.{1,' . $size . '}\b/s', $this->stripTags(
+                preg_replace("/<style\\b[^>]*>(.*?)<\\/style>/s", "", $content)
+            ), $match)) {
+
+                return $match[0];
+            }
+
+            return $this->filterProvider->getPageFilter()->filter($content);
+        }
+
+        return '';
     }
 }
