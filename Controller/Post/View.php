@@ -9,6 +9,9 @@ use Mirasvit\Blog\Controller\Post;
 
 class View extends Post
 {
+
+    protected $_eventManager;
+
     /**
      * @return Page
      * @throws NotFoundException

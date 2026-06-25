@@ -11,6 +11,7 @@ use Mirasvit\Blog\Model\PostFactory;
 
 abstract class Post extends Action
 {
+    protected $storeManager;
     /**
      * @var PostFactory
      */
@@ -20,6 +21,8 @@ abstract class Post extends Action
      * @var Registry
      */
     protected $registry;
+
+    protected $context;
 
     public function __construct(
         StoreManagerInterface $storeManager,

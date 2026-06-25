@@ -21,6 +21,10 @@ class DataProvider extends AbstractDataProvider
      */
     private $config;
 
+    protected $status;
+
+    protected $imageHelper;
+
     public function __construct(
         PostRepositoryInterface $postRepository,
         Config $config,

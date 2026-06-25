@@ -20,6 +20,8 @@ abstract class Category extends Action
      */
     protected $registry;
 
+    protected $context;
+
     public function __construct(
         CategoryFactory $authorFactory,
         Registry $registry,

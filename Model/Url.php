@@ -167,7 +167,7 @@ class Url
      */
     public function getTagUrl($tag, $urlParams = [])
     {
-        return $this->getUrl('/tag/' . strtolower($tag->getUrlKey()), 'tag', $urlParams);
+        return $this->getUrl('/tag/' . strtolower($tag->getUrlKey()??''), 'tag', $urlParams);
     }
 
     /**
@@ -178,7 +178,7 @@ class Url
      */
     public function getAuthorUrl($author, $urlParams = [])
     {
-        return $this->getUrl('/author/' . strtolower($author->getId()), 'author', $urlParams);
+        return $this->getUrl('/author/' . strtolower($author->getId()??''), 'author', $urlParams);
     }
 
     /**
